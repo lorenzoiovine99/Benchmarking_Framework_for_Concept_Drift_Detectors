@@ -24,7 +24,7 @@ The goal of this framework is to provide a **reproducible and principled benchma
 
 ## Repository Structure
 
-code  
+code:
 - moa_java/ # Java (MOA) components
 - python/ # Python wrappers and evaluation
 - experiments/ # Benchmark scripts
@@ -45,7 +45,7 @@ conda activate shm-paper
 ### 2. Install Dependencies
 
 ```bash
-pip install -r requirements-paper.txt
+pip install -r requirements.txt
 ```
 
 ### 3. Building Java Components
