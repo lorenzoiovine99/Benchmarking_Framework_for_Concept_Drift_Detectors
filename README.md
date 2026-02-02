@@ -3,7 +3,7 @@
 This repository contains the **reference implementation** of the experimental framework presented in the paper:
 
 **Yet Another Concept Drift Benchmark? A Principled Framework for Evaluating Drift Detectors**  
-L. Iovine, G. Ziffer, E. Della Valle — *KDD 2026*
+L. Iovine, G. Ziffer, E. Della Valle — *KDD 2026 (under review)*
 
 The goal of this framework is to provide a **reproducible and principled benchmark** for evaluating **concept drift detectors** under well-defined alarm semantics and evaluation metrics.
 
@@ -24,11 +24,11 @@ The goal of this framework is to provide a **reproducible and principled benchma
 
 ## Repository Structure
 
-code/
-├── moa_java/ # Java (MOA) components
-├── python/ # Python wrappers and evaluation
-├── experiments/ # Benchmark scripts
-└── requirements-paper.txt
+code  
+- moa_java/ # Java (MOA) components
+- python/ # Python wrappers and evaluation
+- experiments/ # Benchmark scripts
+- requirements.txt
 
 
 ---
@@ -40,9 +40,29 @@ code/
 ```bash
 conda create -n shm-paper -c conda-forge python=3.11 -y
 conda activate shm-paper
+```
 
 ### 2. Install Dependencies
 
 ```bash
 pip install -r requirements-paper.txt
+```
 
+### 3. Building Java Components
+
+```bash
+cd code/moa_java
+mvn -DskipTests clean package
+cp target/slidingheatmap-moa-1.0.0.jar ../python/slidingheatmap_capymoa/jars/
+```
+
+## Pyhton Dependencies
+```makefile
+numpy==1.26.4
+torch==2.2.2
+capymoa==0.12.0
+jpype1==1.6.0
+typing_extensions
+```
+
+## Citation
