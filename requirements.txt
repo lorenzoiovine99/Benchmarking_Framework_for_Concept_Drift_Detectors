@@ -1,0 +1,5 @@
+numpy==1.26.4
+torch==2.2.2
+capymoa==0.12.0
+jpype1==1.6.0
+typing_extensions==4.15.0

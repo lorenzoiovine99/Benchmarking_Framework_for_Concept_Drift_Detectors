@@ -1,0 +1,1 @@
+from .sliding_heatmap import SlidingHeatmapClassifier
