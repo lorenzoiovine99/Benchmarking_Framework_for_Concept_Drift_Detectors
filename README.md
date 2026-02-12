@@ -30,6 +30,21 @@ code:
 - experiments/ # Benchmark scripts
 - requirements.txt
 
+---
+
+## Dataset Setup
+
+Due to size constraints, datasets are not included in this repository.
+
+They can be downloaded automatically using:
+
+```bash
+pip install requests
+python code/data/download_datasets.py
+```
+
+Alternatively, they are available at:
+https://doi.org/10.5281/zenodo.18621582
 
 ---
 
