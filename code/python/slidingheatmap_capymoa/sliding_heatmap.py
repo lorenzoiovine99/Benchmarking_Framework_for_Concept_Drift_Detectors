@@ -1,21 +1,32 @@
 from pathlib import Path
-import jpype
+import importlib.util
 
-def _add_custom_jar_to_classpath():
-    jar_path = Path(__file__).resolve().parent / "jars" / "slidingheatmap-moa-1.0.0.jar"
-    if not jar_path.exists():
-        raise FileNotFoundError(f"Missing jar: {jar_path}")
+def _ensure_jvm_with_moa_and_custom_jar():
+    import jpype  # IMPORTANT: first line to avoid scope issues
 
-    # IMPORTANT: must happen before the JVM starts
-    if not jpype.isJVMStarted():
-        jpype.addClassPath(str(jar_path))
-    else:
+    if jpype.isJVMStarted():
         raise RuntimeError(
-            "JVM already started before adding the custom jar. "
-            "Import slidingheatmap_capymoa before importing capymoa."
+            "JVM already started. You must import/use slidingheatmap_capymoa BEFORE importing capymoa "
+            "in the same Python process."
         )
 
-_add_custom_jar_to_classpath()
+    custom_jar = Path(__file__).resolve().parent / "jars" / "slidingheatmap-moa-1.0.0.jar"
+    if not custom_jar.exists():
+        raise FileNotFoundError(f"Missing jar: {custom_jar}")
+
+    spec = importlib.util.find_spec("capymoa")
+    if spec is None or spec.origin is None:
+        raise ModuleNotFoundError("capymoa not found. Install capymoa first.")
+    capy_dir = Path(spec.origin).resolve().parent
+    moa_jar = capy_dir / "jar" / "moa.jar"
+    if not moa_jar.exists():
+        raise FileNotFoundError(f"Missing moa.jar: {moa_jar}")
+
+    jpype.startJVM(classpath=[str(custom_jar), str(moa_jar)])
+
+    import jpype.imports  # noqa: F401
+
+_ensure_jvm_with_moa_and_custom_jar()
 
 from capymoa.base import MOAClassifier
 from jpype import JClass
@@ -26,9 +37,14 @@ class SlidingHeatmapClassifier(MOAClassifier):
     def __init__(self, schema=None, CLI=None, random_seed=1,
                  n_bins=10, buffer_window=10000):
         self.moa_learner = JClass("moa.classifiers.custom.SlidingHeatmapClassifier")()
-        super().__init__(schema=schema, CLI=CLI,
-                         random_seed=random_seed,
-                         moa_learner=self.moa_learner)
+        if schema is None:
+            self.schema = None
+            self.CLI = CLI
+            self.random_seed = random_seed
+        else:
+            super().__init__(schema=schema, CLI=CLI,
+                             random_seed=random_seed,
+                             moa_learner=self.moa_learner)
 
         # 🔹 salva i parametri come attributi Python
         self.n_bins = n_bins

@@ -1,0 +1,23 @@
+run:
+  seed: 1
+  window_size: 500
+  max_instances_override: 200000   # opzionale, per test veloce
+  output_grid_csv: "tmp/sine_abrupt_grid.csv"
+  output_summary_csv: "tmp/sine_abrupt_summary.csv"
+
+dataset:
+  path: "datasets/synthetic/cache/sine_abrupt.csv"
+  name: "sine_abrupt"
+  class_index: -1
+  target_type: "categorical"
+  metadata_path: "datasets/synthetic/cache/sine_abrupt.metadata.json"
+
+detector:
+  name: "ADWIN"
+  params:
+    delta: 0.002
+
+learner:
+  params_grid:
+    n_bins: [5, 10, 15]
+    buffer_window: [5000, 10000, 15000]

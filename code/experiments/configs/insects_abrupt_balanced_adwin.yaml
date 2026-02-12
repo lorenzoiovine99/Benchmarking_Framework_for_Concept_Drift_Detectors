@@ -1,0 +1,23 @@
+run:
+  seed: 1
+  window_size: 500
+  output_grid_csv: "tmp/insects_abrupt_balanced_grid.csv"
+  output_summary_csv: "tmp/insects_abrupt_balanced_summary.csv"
+
+dataset:
+  path: "datasets/real/INSECTS abrupt_balanced.csv"
+  name: "insects_abrupt_balanced"
+  class_index: -1
+  target_type: "categorical"
+  metadata_path: "datasets/real/ground_truth/insects_abrupt_balanced.yaml"
+  normalize_labels: true
+
+detector:
+  name: "ADWIN"
+  params:
+    delta: 0.002
+
+learner:
+  params_grid:
+    n_bins: [5]
+    buffer_window: [5000, 10000, 15000]
