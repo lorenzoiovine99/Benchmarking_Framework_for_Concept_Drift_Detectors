@@ -3,7 +3,7 @@
 This repository contains the **reference implementation** of the experimental framework presented in the paper:
 
 **Yet Another Concept Drift Benchmark? A Principled Framework for Evaluating Drift Detectors**  
-L. Iovine, G. Ziffer, E. Della Valle — *KDD 2026 (under review)*
+L. Iovine, G. Ziffer, E. Della Valle — *KDD D&B 2026 (under review)*
 
 The goal of this framework is to provide a **reproducible and principled benchmark** for evaluating **concept drift detectors** under well-defined alarm semantics and evaluation metrics.
 
